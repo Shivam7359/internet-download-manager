@@ -21,6 +21,7 @@ let detectedLinks = 0;
 let captureStatePollTimer = null;
 let captureCountdownTimer = null;
 let latestCaptureState = null;
+const IDM_OFFLINE_MESSAGE = "IDM not running";
 
 function msg(type, payload = {}) {
   return new Promise((resolve) => {
@@ -53,7 +54,7 @@ function setConnection(connected, message = "") {
     ui.statusDot.classList.add(connected ? "good" : "bad");
   }
   if (ui.statusText) {
-    ui.statusText.textContent = connected ? "Connected" : (message || "Disconnected");
+    ui.statusText.textContent = connected ? "Connected" : (message || IDM_OFFLINE_MESSAGE);
   }
 }
 
@@ -172,7 +173,7 @@ function renderQueue(items) {
 async function refreshQueue() {
   const health = await msg("pingBridge");
   if (!health.ok) {
-    setConnection(false, "Disconnected");
+    setConnection(false, IDM_OFFLINE_MESSAGE);
     renderEmpty();
     return;
   }
@@ -284,5 +285,5 @@ window.addEventListener("unload", () => {
 });
 
 init().catch(() => {
-  setConnection(false, "Disconnected");
+  setConnection(false, IDM_OFFLINE_MESSAGE);
 });
