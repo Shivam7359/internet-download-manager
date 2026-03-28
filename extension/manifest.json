@@ -1,0 +1,68 @@
+{
+  "manifest_version": 3,
+  "name": "IDM Bridge",
+  "description": "Feature-rich local bridge for IDM desktop download manager.",
+  "version": "0.3.0",
+  "minimum_chrome_version": "114",
+  "permissions": [
+    "contextMenus",
+    "downloads",
+    "storage",
+    "scripting",
+    "notifications",
+    "tabs",
+    "webRequest",
+    "cookies",
+    "alarms"
+  ],
+  "optional_permissions": [],
+  "host_permissions": [
+    "http://localhost:6800/*",
+    "http://127.0.0.1:6800/*",
+    "http://localhost:6677/*",
+    "http://127.0.0.1:6677/*"
+  ],
+  "optional_host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_title": "IDM Bridge",
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "options_page": "options/options.html",
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "download-scorer.js",
+        "content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "content/injected_network_hooks.js"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ]
+}

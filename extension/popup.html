@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IDM Extension</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: "Segoe UI", Tahoma, sans-serif;
+        background: #f5f7fb;
+        color: #1f2937;
+        width: 320px;
+      }
+      .wrap {
+        padding: 14px;
+      }
+      button {
+        width: 100%;
+        padding: 10px;
+        border: 0;
+        border-radius: 8px;
+        background: #1268d9;
+        color: #fff;
+        cursor: pointer;
+      }
+      .status {
+        margin-top: 10px;
+        font-size: 12px;
+        color: #4b5563;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h3>IDM Bridge</h3>
+      <button id="pair">Pair with Desktop App</button>
+      <div class="status" id="status">Not connected</div>
+    </div>
+    <script src="popup.js"></script>
+  </body>
+</html>

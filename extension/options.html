@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IDM Extension Options</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 20px;
+        font-family: "Segoe UI", Tahoma, sans-serif;
+        background: #ffffff;
+        color: #111827;
+      }
+      input {
+        width: 100%;
+        padding: 8px;
+        margin: 8px 0 12px;
+      }
+      button {
+        padding: 8px 14px;
+        border: 0;
+        border-radius: 6px;
+        background: #0d9488;
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>IDM Extension Settings</h2>
+    <label for="apiBase">Bridge API URL</label>
+    <input id="apiBase" type="text" placeholder="http://127.0.0.1:8765" />
+
+    <button id="save">Save</button>
+    <p id="status"></p>
+
+    <script src="options.js"></script>
+  </body>
+</html>

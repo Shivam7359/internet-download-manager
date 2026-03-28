@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: pip install -r desktop/requirements.txt --break-system-packages
+      - name: Install CI tooling
+        run: pip install pytest ruff mypy
+      - name: Run linter
+        run: ruff check desktop/
+      - name: Run type check
+        run: mypy desktop/
+      - name: Run tests
+        run: pytest tests/ -v

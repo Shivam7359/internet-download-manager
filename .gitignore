@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.env
+venv/
+.venv/
+dist/
+build/
+*.egg-info/
+
+# App data - never commit user data
+*.db
+*.db-journal
+*.log
+config.json
+credentials.enc
+
+# IDE
+.vscode/
+.idea/
+*.suo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Build outputs
+*.exe
+*.msi
+*.spec

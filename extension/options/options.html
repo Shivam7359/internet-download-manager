@@ -1,0 +1,351 @@
+<!-- IDM v1.1 — options.html — last updated 2026-03-28 -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>IDM Extension Settings</title>
+  <style>
+    :root {
+      --bg: #1a1a2e;
+      --surface: #16213e;
+      --surface-soft: #1f2a4d;
+      --line: #2b3a63;
+      --text: #f5f7ff;
+      --muted: #aab3d6;
+      --accent: #e94560;
+      --good: #2ecc71;
+      --bad: #ef4444;
+    }
+
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      background:
+        radial-gradient(300px 200px at 15% -10%, rgba(233,69,96,0.20), transparent 70%),
+        radial-gradient(280px 180px at 110% 0%, rgba(15,52,96,0.28), transparent 70%),
+        var(--bg);
+      color: var(--text);
+      font: 14px/1.45 "Segoe UI", "Ubuntu", "SF Pro Text", sans-serif;
+      min-height: 100vh;
+    }
+
+    .layout {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 14px;
+    }
+
+    .sidebar, .panel {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px;
+    }
+
+    .nav {
+      display: grid;
+      gap: 8px;
+    }
+
+    .nav button {
+      border: 1px solid var(--line);
+      background: var(--surface-soft);
+      color: var(--text);
+      border-radius: 10px;
+      padding: 10px;
+      text-align: left;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .nav button.active {
+      background: linear-gradient(135deg, rgba(233,69,96,0.28), rgba(233,69,96,0.12));
+      border-color: rgba(233,69,96,0.6);
+    }
+
+    h1 { margin: 0 0 10px; font-size: 22px; }
+    h2 { margin: 0 0 12px; font-size: 18px; }
+    h3 { margin: 12px 0 8px; font-size: 14px; color: var(--muted); }
+
+    .section { display: none; }
+    .section.active { display: block; }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .field {
+      display: grid;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    label { color: var(--muted); font-size: 13px; }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="password"],
+    select {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: #0f1730;
+      color: var(--text);
+      border-radius: 10px;
+      padding: 10px;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    button.action {
+      border: 1px solid var(--line);
+      background: var(--surface-soft);
+      color: var(--text);
+      border-radius: 10px;
+      padding: 9px 12px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    button.primary {
+      background: linear-gradient(135deg, var(--accent), #ff7f93);
+      border-color: rgba(233,69,96,0.7);
+      color: #fff;
+    }
+
+    .status {
+      margin-top: 12px;
+      min-height: 20px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .status.good { color: var(--good); }
+    .status.bad { color: var(--bad); }
+
+    .toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .switch {
+      position: relative;
+      width: 48px;
+      height: 26px;
+      border-radius: 999px;
+      background: #3d4566;
+      border: 1px solid #56608b;
+      transition: background .2s ease;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .switch::after {
+      content: "";
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #ffffff;
+      transition: transform .2s ease;
+    }
+
+    .switch[data-on="true"] {
+      background: linear-gradient(135deg, var(--accent), #ff7f93);
+      border-color: rgba(233,69,96,0.8);
+    }
+
+    .switch[data-on="true"]::after {
+      transform: translateX(22px);
+    }
+
+    .switch input { display: none; }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.03);
+      font-size: 12px;
+    }
+
+    .tag button {
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      padding: 0;
+      font-size: 12px;
+    }
+
+    .pair-state {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--bad);
+      box-shadow: 0 0 0 3px rgba(239,68,68,0.2);
+    }
+
+    .dot.good {
+      background: var(--good);
+      box-shadow: 0 0 0 3px rgba(46,204,113,0.2);
+    }
+
+    @media (max-width: 900px) {
+      .layout { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="layout">
+    <aside class="sidebar">
+      <h2>Settings</h2>
+      <nav class="nav" id="sidebarNav">
+        <button data-tab="general" class="active">General</button>
+        <button data-tab="capture">Capture Rules</button>
+        <button data-tab="appearance">Appearance</button>
+        <button data-tab="advanced">Advanced</button>
+        <button data-tab="about">About</button>
+      </nav>
+    </aside>
+
+    <section class="panel">
+      <h1>IDM Extension</h1>
+
+      <section id="tab-general" class="section active">
+        <h2>General</h2>
+        <div class="field">
+          <label>Bridge Host</label>
+          <input id="host" type="text" placeholder="localhost" />
+        </div>
+        <div class="field">
+          <label>Bridge Port</label>
+          <input id="port" type="number" min="1" max="65535" placeholder="6800" />
+        </div>
+
+        <h3>Pairing</h3>
+        <div class="pair-state"><span id="pairDot" class="dot"></span><span id="pairState">Not paired</span></div>
+        <div class="row">
+          <div class="field">
+            <label>Pairing Code</label>
+            <input id="pairCode" type="text" maxlength="16" placeholder="A3F7-K2M9" />
+          </div>
+          <div class="field" style="align-self:end;">
+            <button id="pairNow" class="action primary">Pair Now</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="tab-capture" class="section">
+        <h2>Capture Rules</h2>
+        <div class="field toggle">
+          <div id="autoCaptureSwitch" class="switch" data-on="true"><input id="autoCapture" type="checkbox" /></div>
+          <span>Auto-capture downloads</span>
+        </div>
+
+        <div class="field">
+          <label>Minimum file size (KB)</label>
+          <input id="minFileSizeKb" type="number" min="0" value="0" />
+        </div>
+
+        <div class="field">
+          <label>Download confidence threshold: <strong id="scoreThresholdValue">60</strong></label>
+          <input id="scoreThreshold" type="range" min="40" max="80" step="1" value="60" />
+        </div>
+
+        <div class="field toggle">
+          <div id="uncertainSwitch" class="switch" data-on="false"><input id="uncertainLinks" type="checkbox" /></div>
+          <span>Show buttons for uncertain links (score 40-59)</span>
+        </div>
+
+        <div class="field toggle">
+          <div id="scorerDebugSwitch" class="switch" data-on="false"><input id="scorerDebugMode" type="checkbox" /></div>
+          <span>Debug mode (show score tooltip and signal logs)</span>
+        </div>
+
+        <div class="field">
+          <label>File type tags</label>
+          <div class="row" style="grid-template-columns: 1fr auto; margin:0;">
+            <input id="newExt" type="text" placeholder="e.g. zip" />
+            <button id="addExt" class="action">Add</button>
+          </div>
+          <div id="extTags" class="tags"></div>
+        </div>
+      </section>
+
+      <section id="tab-appearance" class="section">
+        <h2>Appearance</h2>
+        <div class="field toggle">
+          <div id="inlineSwitch" class="switch" data-on="true"><input id="inlineButtons" type="checkbox" /></div>
+          <span>Inline IDM buttons</span>
+        </div>
+        <div class="field toggle">
+          <div id="streamSwitch" class="switch" data-on="true"><input id="streamDetect" type="checkbox" /></div>
+          <span>Video stream detection</span>
+        </div>
+      </section>
+
+      <section id="tab-advanced" class="section">
+        <h2>Advanced</h2>
+        <div class="field">
+          <label>Default Save Category</label>
+          <select id="defaultCategory">
+            <option value="Auto">Auto</option>
+            <option value="Video">Video</option>
+            <option value="Audio">Audio</option>
+            <option value="Document">Document</option>
+            <option value="Image">Image</option>
+            <option value="Software">Software</option>
+            <option value="Archive">Archive</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+      </section>
+
+      <section id="tab-about" class="section">
+        <h2>About</h2>
+        <p style="color:var(--muted); margin:0 0 8px;">IDM browser extension bridge for desktop IDM.</p>
+        <p style="color:var(--muted); margin:0;">Version 0.3.0</p>
+      </section>
+
+      <div class="toolbar">
+        <button id="saveAll" class="action primary">Save All Settings</button>
+      </div>
+      <div id="status" class="status">Ready</div>
+    </section>
+  </main>
+  <script src="options.js"></script>
+</body>
+</html>

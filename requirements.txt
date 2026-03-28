@@ -1,0 +1,57 @@
+# IDM v1.1 — requirements.txt — last updated 2026-03-28
+# ==============================================================================
+# IDM - Internet Download Manager
+# Python Dependencies
+# ==============================================================================
+# Install:  pip install -r requirements.txt
+# ==============================================================================
+
+# --- UI Framework ---
+PyQt6>=6.6.0
+pyqtgraph>=0.13.3
+
+# --- Async HTTP & Networking ---
+aiohttp>=3.9.0
+aiohttp-socks>=0.8.4           # SOCKS5/SOCKS4 proxy support for aiohttp
+aiofiles>=23.2.1                # async file I/O for chunk writing
+aioftp>=0.22.3                  # async FTP client
+
+# --- Web Framework (browser extension bridge) ---
+fastapi>=0.109.0
+uvicorn[standard]>=0.27.0       # ASGI server with websocket support
+websockets>=12.0
+pydantic>=2.5.0
+
+# --- Video / Stream Downloading ---
+yt-dlp>=2024.1.0
+
+# --- Torrent Support ---
+# NOTE: python-libtorrent requires libtorrent C++ library installed.
+# On Windows:  pip install python-libtorrent
+# On Ubuntu:   sudo apt install python3-libtorrent
+# On macOS:    brew install libtorrent-rasterbar
+
+# --- Database ---
+aiosqlite>=0.19.0               # async SQLite wrapper
+
+# --- System Utilities ---
+psutil>=5.9.0                   # CPU, memory, network stats
+certifi>=2023.11.0              # CA certificate bundle
+
+# --- Security ---
+cryptography>=41.0.0            # TLS utilities
+keyring>=25.0.0                 # OS credential store for auth tokens
+
+# --- Packaging (optional) ---
+# pyinstaller>=6.10.0           # build standalone Windows executable
+
+# ==============================================================================
+# Development Dependencies (install with: pip install -r requirements-dev.txt)
+# These are also defined in pyproject.toml [project.optional-dependencies]
+# ==============================================================================
+# pytest>=7.4.0
+# pytest-asyncio>=0.23.0
+# pytest-cov>=4.1.0
+# pytest-mock>=3.12.0
+# ruff>=0.1.0
+# mypy>=1.7.0

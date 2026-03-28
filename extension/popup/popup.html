@@ -1,0 +1,318 @@
+<!-- IDM v1.1 — popup.html — last updated 2026-03-28 -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>IDM</title>
+  <style>
+    :root {
+      --bg: #1a1a2e;
+      --surface: #16213e;
+      --surface-soft: #1f2a4d;
+      --accent: #e94560;
+      --accent-soft: #ff6b81;
+      --text: #f5f7ff;
+      --muted: #aab3d6;
+      --line: #2b3a63;
+      --good: #2ecc71;
+      --bad: #ef4444;
+      --warn: #f59e0b;
+    }
+
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 360px;
+      max-height: 500px;
+      overflow: hidden;
+      background:
+        radial-gradient(120px 80px at 90% -10%, rgba(233,69,96,0.28), transparent 70%),
+        radial-gradient(160px 120px at -10% 20%, rgba(15,52,96,0.35), transparent 75%),
+        var(--bg);
+      color: var(--text);
+      font: 13px/1.4 "Segoe UI", "Ubuntu", "SF Pro Text", sans-serif;
+    }
+
+    .popup {
+      display: flex;
+      flex-direction: column;
+      max-height: 500px;
+      padding: 12px;
+      gap: 10px;
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent 30%), var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 10px;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+    }
+
+    .brand-badge {
+      width: 26px;
+      height: 26px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--accent), #ff8a8a);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      color: #fff;
+      box-shadow: 0 8px 20px rgba(233,69,96,0.32);
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--warn);
+      box-shadow: 0 0 0 3px rgba(245,158,11,0.2);
+    }
+
+    .dot.good { background: var(--good); box-shadow: 0 0 0 3px rgba(46,204,113,0.2); }
+    .dot.bad { background: var(--bad); box-shadow: 0 0 0 3px rgba(239,68,68,0.2); }
+
+    .icon-btn {
+      border: 1px solid var(--line);
+      background: var(--surface-soft);
+      color: var(--text);
+      width: 30px;
+      height: 30px;
+      border-radius: 9px;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    .quick {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .primary {
+      border: 0;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-soft));
+      color: #fff;
+      font-weight: 700;
+      padding: 10px 12px;
+      cursor: pointer;
+    }
+
+    .badge {
+      min-width: 34px;
+      text-align: center;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 6px 8px;
+      color: var(--muted);
+      background: rgba(255,255,255,0.02);
+      font-weight: 700;
+    }
+
+    .capture-state {
+      display: grid;
+      gap: 8px;
+    }
+
+    .capture-title {
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .capture-detail {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .secondary {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--surface-soft);
+      color: var(--text);
+      font-weight: 600;
+      padding: 8px 10px;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .downloads {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 300px;
+      overflow: auto;
+      padding-right: 2px;
+    }
+
+    .downloads::-webkit-scrollbar { width: 8px; }
+    .downloads::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.18);
+      border-radius: 999px;
+    }
+
+    .item {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: rgba(255,255,255,0.02);
+      padding: 8px;
+      display: grid;
+      gap: 6px;
+    }
+
+    .item-top {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .name {
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .meta {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .mini-bar {
+      height: 6px;
+      border-radius: 999px;
+      background: #0f1730;
+      overflow: hidden;
+    }
+
+    .mini-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #57b4ff, #2ecc71);
+      width: 0;
+      transition: width .2s linear;
+    }
+
+    .actions {
+      display: inline-flex;
+      gap: 4px;
+    }
+
+    .action {
+      width: 24px;
+      height: 24px;
+      border-radius: 7px;
+      border: 1px solid var(--line);
+      background: var(--surface-soft);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 12px;
+      line-height: 1;
+    }
+
+    .empty {
+      text-align: center;
+      color: var(--muted);
+      border: 1px dashed var(--line);
+      border-radius: 10px;
+      padding: 22px 10px;
+      background: rgba(255,255,255,0.01);
+    }
+
+    .footer {
+      display: grid;
+      gap: 8px;
+    }
+
+    .range-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      align-items: center;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+  <main class="popup" role="application" aria-label="IDM popup">
+    <section class="card header">
+      <div class="brand">
+        <span class="brand-badge">IDM</span>
+        <span>IDM Bridge</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:8px;">
+        <div id="connection" class="status">
+          <span id="statusDot" class="dot"></span>
+          <span id="statusText">Checking</span>
+        </div>
+        <button id="openOptions" class="icon-btn" title="Settings" aria-label="Settings">⚙</button>
+      </div>
+    </section>
+
+    <section class="card quick">
+      <button id="scanBatch" class="primary">⬇ Download Page Links</button>
+      <div id="detectedCount" class="badge">0</div>
+    </section>
+
+    <section class="card capture-state">
+      <div id="captureStateTitle" class="capture-title">Checking capture mode...</div>
+      <div id="captureStateDetail" class="capture-detail">Please wait</div>
+      <button id="toggleCapturePause" class="secondary">Pause IDM capture for 5 min</button>
+    </section>
+
+    <section class="card">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+        <strong>Active Downloads</strong>
+        <div style="display:flex; gap:6px;">
+          <button id="pauseAll" class="action" title="Pause all">❚❚</button>
+          <button id="resumeAll" class="action" title="Resume all">▶</button>
+        </div>
+      </div>
+      <div id="activeList" class="downloads">
+        <div class="empty">No active downloads</div>
+      </div>
+    </section>
+
+    <section class="card footer">
+      <div class="range-row">
+        <label for="speedLimit">Speed limit: <span id="speedText">Unlimited</span></label>
+        <button id="applySpeed" class="action" title="Apply speed">✓</button>
+      </div>
+      <input id="speedLimit" type="range" min="0" max="50000" step="100" value="0" />
+    </section>
+  </main>
+  <script src="popup.js"></script>
+</body>
+</html>
